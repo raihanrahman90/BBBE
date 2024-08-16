@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  app:
+      build: .
+      ports:
+        - "8081:8080"
+      volumes:
+        - /root/rumahbelajar-static:/usr/static
+      environment:
+        - GO_ENV=development

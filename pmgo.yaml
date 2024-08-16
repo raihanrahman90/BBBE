@@ -1,0 +1,8 @@
+apps:
+  - name: rumahbelajar
+    cmd: ./rumahbelajar
+    args:
+      - -port=8082
+    env:
+      - PORT=8082
+    watch: ["."]
