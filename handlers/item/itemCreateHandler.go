@@ -1,4 +1,4 @@
-package class
+package item
 
 import (
 	"net/http"
@@ -9,13 +9,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CreateClass(c *gin.Context) {
+func CreateItem(c *gin.Context) {
 	var requestData struct {
-		Title       string 		`json:"title"`
-		Price       int    		`json:"price"`
-		Description string 		`json:"description"`
-		Image       string 		`json:"image"`
-		Modules 	[]string	`json:"modules"`
+		Name        string `json:"name"`
+		Price       int    `json:"price"`
+		Description string `json:"description"`
 	}
 
 	if err := c.ShouldBindJSON(&requestData); err != nil {
@@ -23,20 +21,10 @@ func CreateClass(c *gin.Context) {
 		return
 	}
 
-	// Save base64 image to disk
-	imagePath, err := utils.SaveBase64Image(requestData.Image)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed save image"})
-		return
-	}
-
-	// Create teacher object
-	class := models.Class{
-		Title:       requestData.Title,
+	class := models.Item{
+		Name:        requestData.Name,
 		Price:       requestData.Price,
 		Description: requestData.Description,
-		Image:       imagePath,
-		Modules: 	 generateModules(requestData.Modules),
 	}
 
 	if err := config.DB.Create(&class).Error; err != nil {

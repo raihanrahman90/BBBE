@@ -1,4 +1,4 @@
-package class
+package item
 
 import (
 	"net/http"
@@ -9,13 +9,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetClass(c *gin.Context) {
-	var class []models.Class
-	if err := config.DB.Preload("Modules").Find(&class).Error; err != nil {
+func GetItem(c *gin.Context) {
+	var item []models.Item
+	if err := config.DB.Preload("ItemImage").Find(&item).Error; err != nil {
 		c.JSON(http.StatusNotFound, utils.FailedResponse("Data Not Found"))
 		return
 	}
 
-	responseData := responseList(class)
+	responseData := responseList(item)
 	c.JSON(http.StatusOK, utils.SuccessResponse(responseData))
 }

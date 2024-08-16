@@ -24,7 +24,7 @@ func main() {
 	config.ConnectDatabase()
 
 	// Auto migrate the User and Teacher tables
-	config.DB.AutoMigrate(&models.User{}, &models.Teacher{}, &models.TeacherField{}, &models.LandingPage{}, &models.Class{}, &models.History{}, &models.Article{}, &models.Testimoni{}, &models.ClassModules{})
+	config.DB.AutoMigrate(&models.User{}, &models.LandingPage{}, &models.History{}, &models.Article{}, &models.Testimoni{}, &models.Order{}, &models.OrderItem{}, &models.Item{}, &models.ItemImage{})
 
 	// Initialize the router
 	r := routes.SetupRouter()
