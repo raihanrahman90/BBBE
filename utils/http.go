@@ -2,6 +2,7 @@ package utils
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -19,6 +20,7 @@ type DefaultResponse struct {
 	Status 		int			`json:"status"`
 	Data 		interface{}	`json:"data"`
 	Message		string		`json:"message"`
+	TotalPage	int			`json:"total_page"`
 }
 
 func SuccessResponse(response interface{}) DefaultResponse{
@@ -30,6 +32,16 @@ func SuccessResponse(response interface{}) DefaultResponse{
 	return defaultResponse;
 }
 
+func SuccessResponsePagination(response interface{}, totalItem int, pageSize int) DefaultResponse{
+	var defaultResponse DefaultResponse
+	defaultResponse.Data 		= response
+	defaultResponse.IsSuccess 	= true
+	defaultResponse.Status		= 200
+	defaultResponse.Message		= "success"
+	defaultResponse.TotalPage	= (totalItem + pageSize -1)/(pageSize)
+	return defaultResponse;
+}
+
 func FailedResponse(message string) DefaultResponse{
 		var defaultResponse DefaultResponse
 		defaultResponse.Data 		= nil
@@ -37,4 +49,21 @@ func FailedResponse(message string) DefaultResponse{
 		defaultResponse.Status		= 400
 		defaultResponse.Message		= message
 		return defaultResponse;
+}
+
+func GetPagination(c *gin.Context) (int, int){
+	page := c.DefaultQuery("page", "1")
+    pageSize := c.DefaultQuery("pageSize", "10")
+	var pageInt, pageSizeInt int
+    var err error
+	if pageInt, err = strconv.Atoi(page); err != nil || pageInt < 1 {
+        pageInt = 1
+    }
+
+    if pageSizeInt, err = strconv.Atoi(pageSize); err != nil || pageSizeInt < 1 {
+        pageSizeInt = 10
+    }
+
+	offset := (pageInt - 1) * pageSizeInt
+	return offset, pageSizeInt;
 }

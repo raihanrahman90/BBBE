@@ -6,7 +6,6 @@ import (
 	"rumahbelajar/handlers/article"
 	"rumahbelajar/handlers/item"
 	landingpage "rumahbelajar/handlers/landingPage"
-	"rumahbelajar/handlers/teacher"
 	"rumahbelajar/handlers/testimoni"
 	"rumahbelajar/handlers/user"
 	"rumahbelajar/middleware"
@@ -43,11 +42,6 @@ func SetupRouter() *gin.Engine {
 	protected := r.Group("/admin")
 	protected.Use(middleware.AuthMiddleware())
 	{
-		protected.GET("/teachers", teacher.GetTeacher)
-		protected.POST("/teachers", teacher.CreateTeacher)
-		protected.GET("/teachers/:id", teacher.GetTeacherById)
-		protected.POST("/teachers/:id", teacher.UpdateTeacher)
-		protected.DELETE("/teachers/:id", teacher.DeleteTeacher)
 
 		protected.GET("/article", article.GetArticle)
 		protected.POST("/article", article.CreateArticle)
