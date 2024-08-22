@@ -1,8 +1,9 @@
 package utils
 
 import (
+	"bbbe/enums"
+	"bbbe/models"
 	"os"
-	"rumahbelajar/enums"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -13,14 +14,16 @@ var jwtKey = []byte(os.Getenv("TOKEN_SECRET"))
 type Claims struct {
 	Username string `json:"username"`
     Access enums.Access `json:"acceess"`
+	UserId string	`json:"userId"`
 	jwt.StandardClaims
 }
 
-func GenerateJWT(username string, access enums.Access) (string, error) {
+func GenerateJWT(user models.User) (string, error) {
 	expirationTime := time.Now().Add(24 * time.Hour)
 	claims := &Claims{
-		Username: username,
-        Access: access,
+		Username: user.Username,
+        Access: user.Access,
+		UserId: user.ID,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 		},

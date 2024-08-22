@@ -67,3 +67,15 @@ func GetPagination(c *gin.Context) (int, int){
 	offset := (pageInt - 1) * pageSizeInt
 	return offset, pageSizeInt;
 }
+
+func GetSorting(c *gin.Context) (string, string) {
+	sortBy := c.DefaultQuery("sortBy", "id") // Default sort by ID
+    sortOrder := c.DefaultQuery("sortOrder", "asc") // Default order ascending
+
+    // Validate sortOrder and set default if invalid
+    if sortOrder != "asc" && sortOrder != "desc" {
+        sortOrder = "asc"
+    }
+	return sortBy, sortOrder
+
+}

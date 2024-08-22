@@ -1,6 +1,6 @@
 apps:
-  - name: rumahbelajar
-    cmd: ./rumahbelajar
+  - name: bbbe
+    cmd: ./bbbe
     args:
       - -port=8082
     env:

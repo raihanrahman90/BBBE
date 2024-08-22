@@ -1,18 +1,19 @@
-package item
+package cart
 
 import (
-	"net/http"
 	"bbbe/config"
 	"bbbe/models"
 	"bbbe/utils"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-func CreateItemImage(c *gin.Context) {
+func CreateCart(c *gin.Context) {
+	userId,_ := c.Get("userId")
 	var requestData struct {
 		ItemId string `json:"item_id"`
-		Image  string `json:"image"`
+		Amount  int `json:"amount"`
 	}
 
 	if err := c.ShouldBindJSON(&requestData); err != nil {
@@ -20,18 +21,13 @@ func CreateItemImage(c *gin.Context) {
 		return
 	}
 
-	imagePath, err := utils.SaveBase64Image(requestData.Image)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, utils.FailedResponse("Failed to save image"))
-		return
-	}
-
-	itemImage := models.ItemImage{
-		Path:   imagePath,
+	cart := models.Cart{
 		ItemID: requestData.ItemId,
+		Amount: requestData.Amount,
+		UserID: userId.(string),
 	}
 
-	if err := config.DB.Create(&itemImage).Error; err != nil {
+	if err := config.DB.Create(&cart).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, utils.FailedResponse("Internal Server Error"))
 		return
 	}

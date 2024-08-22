@@ -4,9 +4,9 @@ package testimoni
 import (
 	"net/http"
 
-	"rumahbelajar/config"
-	"rumahbelajar/models"
-	"rumahbelajar/utils"
+	"bbbe/config"
+	"bbbe/models"
+	"bbbe/utils"
 
 	"github.com/gin-gonic/gin"
 )

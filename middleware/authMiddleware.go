@@ -1,8 +1,8 @@
 package middleware
 
 import (
+	"bbbe/utils"
 	"net/http"
-	"rumahbelajar/utils"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -29,6 +29,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
+		c.set("userId", claims.UserId)
 		c.Set("username", claims.Username)
     	c.Set("access", claims.Access)
 		c.Next()

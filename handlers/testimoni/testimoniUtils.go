@@ -1,8 +1,8 @@
 package testimoni
 
 import (
-	"rumahbelajar/models"
-	"rumahbelajar/utils"
+	"bbbe/models"
+	"bbbe/utils"
 )
 
 type responseType struct {

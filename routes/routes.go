@@ -3,12 +3,12 @@ package routes
 
 import (
 	"os"
-	"rumahbelajar/handlers/article"
-	"rumahbelajar/handlers/item"
-	landingpage "rumahbelajar/handlers/landingPage"
-	"rumahbelajar/handlers/testimoni"
-	"rumahbelajar/handlers/user"
-	"rumahbelajar/middleware"
+	"bbbe/handlers/article"
+	"bbbe/handlers/item"
+	landingpage "bbbe/handlers/landingPage"
+	"bbbe/handlers/testimoni"
+	"bbbe/handlers/user"
+	"bbbe/middleware"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -37,6 +37,7 @@ func SetupRouter() *gin.Engine {
 	r.GET("/testimoni", testimoni.GetTestimoni)
 	r.GET("/article/:title", article.GetArticleByTitle)
 	r.GET("/item", article.GetArticle)
+	r.GET("/item/:id", article.GetArticleById)
 	r.GET("/landing-page", landingpage.GetLandingPageData)
 
 	protected := r.Group("/admin")
@@ -70,7 +71,8 @@ func SetupRouter() *gin.Engine {
 
 		protected.GET("/landing-page", landingpage.GetLandingPageData)
 		protected.POST("/landing-page", landingpage.UpdateDataLandingPage)
+
+		protected.GET("/transaction", transaction)
 	}
 
-	return r
 }

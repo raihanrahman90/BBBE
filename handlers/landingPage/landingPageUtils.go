@@ -1,8 +1,8 @@
 package landingpage
 
 import (
-	"rumahbelajar/models"
-	"rumahbelajar/utils"
+	"bbbe/models"
+	"bbbe/utils"
 )
 
 type responseType struct {

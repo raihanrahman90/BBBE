@@ -2,7 +2,7 @@
 package models
 
 import (
-	"rumahbelajar/enums"
+	"bbbe/enums"
 )
 
 type User struct {

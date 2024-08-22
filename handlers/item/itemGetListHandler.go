@@ -1,10 +1,11 @@
 package item
 
 import (
+	"fmt"
 	"net/http"
-	"rumahbelajar/config"
-	"rumahbelajar/models"
-	"rumahbelajar/utils"
+	"bbbe/config"
+	"bbbe/models"
+	"bbbe/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -23,7 +24,11 @@ func GetItem(c *gin.Context) {
         query = query.Where("name LIKE ?", "%"+name+"%")
     }
 	
+	sortBy, sortOrder := utils.GetSorting(c)
+	query = query.Order(fmt.Sprintf("%s %s", sortBy, sortOrder))
+	
 	offset, limit := utils.GetPagination(c)
+	
 	if err := query.Offset(offset).Limit(limit).Preload("ItemImage").Find(&item).Error; err != nil {
 		c.JSON(http.StatusNotFound, utils.FailedResponse("Data Not Found"))
 		return

@@ -1,10 +1,10 @@
 package user
 
 import (
+	"bbbe/config"
+	"bbbe/models"
+	"bbbe/utils"
 	"net/http"
-	"rumahbelajar/config"
-	"rumahbelajar/models"
-	"rumahbelajar/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,7 +16,7 @@ func RefreshToken(c *gin.Context) {
 		c.JSON(http.StatusNotFound, utils.FailedResponse(err.Error()))
 		return
 	}
-	token, err := utils.GenerateJWT(userData.Username, userData.Access)
+	token, err := utils.GenerateJWT(userData)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, utils.FailedResponse("Could not generate token"))
 		return

@@ -1,27 +1,27 @@
-package item
+package cart
 
 import (
-	"net/http"
 	"bbbe/config"
 	"bbbe/models"
 	"bbbe/utils"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-func DeleteItemImage(c *gin.Context) {
+func DeleteCart(c *gin.Context) {
 	id := c.Param("id")
-	var itemImage models.ItemImage
-	if err := config.DB.Where("id = ?", id).First(&itemImage).Error; err != nil {
+	var cart models.Cart
+	if err := config.DB.Where("id = ?", id).First(&cart).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, utils.FailedResponse("Internal Server Error"))
 		return
 	}
 
-	if err := config.DB.Delete(&itemImage).Error; err != nil {
+	if err := config.DB.Delete(&cart).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, utils.FailedResponse("Internal Server Error"))
 		return
 	}
 
-	c.JSON(http.StatusOK, utils.SuccessResponse(itemImage))
+	c.JSON(http.StatusOK, utils.SuccessResponse(cart))
 
 }

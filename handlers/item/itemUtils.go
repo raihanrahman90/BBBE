@@ -1,8 +1,8 @@
 package item
 
 import (
-	"rumahbelajar/models"
-	"rumahbelajar/utils"
+	"bbbe/models"
+	"bbbe/utils"
 )
 
 type responseDTO struct {

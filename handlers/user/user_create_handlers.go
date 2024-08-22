@@ -2,10 +2,10 @@ package user
 
 import (
 	"net/http"
-	"rumahbelajar/config"
-	"rumahbelajar/enums"
-	"rumahbelajar/models"
-	"rumahbelajar/utils"
+	"bbbe/config"
+	"bbbe/enums"
+	"bbbe/models"
+	"bbbe/utils"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"

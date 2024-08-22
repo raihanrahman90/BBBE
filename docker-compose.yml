@@ -6,6 +6,6 @@ services:
       ports:
         - "8081:8080"
       volumes:
-        - /root/rumahbelajar-static:/usr/static
+        - /root/bbbe-static:/usr/static
       environment:
         - GO_ENV=development

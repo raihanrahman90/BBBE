@@ -2,13 +2,13 @@
 package main
 
 import (
+	"bbbe/config"
+	"bbbe/models"
+	"bbbe/routes"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
-	"rumahbelajar/config"
-	"rumahbelajar/models"
-	"rumahbelajar/routes"
 
 	"github.com/joho/godotenv"
 )
