@@ -35,7 +35,7 @@ func SaveBase64Image(base64String string) (string, error) {
 func GetImageUrl(filename string) string{
 	path := filepath.Join("/static/", filename)
 	baseURL := &url.URL{
-		Scheme: "https",
+		Scheme: "http",
 		Host:   os.Getenv("DOMAIN"),
 		Path:   path,
 	}
