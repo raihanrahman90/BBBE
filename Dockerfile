@@ -14,16 +14,10 @@ RUN go mod download
 COPY . .
 
 # Build the Go app
-RUN go build -o main .
-
-# Start a new stage from scratch
-FROM scratch
-
-# Copy the Pre-built binary file from the previous stage
-COPY --from=builder /app/main /main
+RUN go build -o ./app .
 
 # Command to run the executable
-CMD ["/main"]
+CMD ["./app"]
 
 # Expose port 8080
 EXPOSE 8080
