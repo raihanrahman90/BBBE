@@ -2,10 +2,13 @@ version: '3.8'
 
 services:
   app:
-      build: .
-      ports:
-        - "8081:8080"
-      volumes:
-        - /root/bbbe-static:/usr/static
-      environment:
-        - GO_ENV=development
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+    volumes:
+      - .:/app
+    command: ["/main"]
