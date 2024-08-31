@@ -9,7 +9,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - "/home/bbbe/public:/root/bbbe_public"
+      - /home/bbbe_public:/home/bbbe/public
     environment:
       - PORT=8080
     command: ["./app"]
