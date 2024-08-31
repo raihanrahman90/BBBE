@@ -11,4 +11,4 @@ services:
       - "/home/bbbe/public:/root/bbbe_public"
     environment:
       - PORT=8080
-    command: ["/main"]
+    command: ["./app"]

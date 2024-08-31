@@ -1,8 +1,0 @@
-apps:
-  - name: bbbe
-    cmd: ./bbbe
-    args:
-      - -port=8082
-    env:
-      - PORT=8082
-    watch: ["."]
