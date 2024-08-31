@@ -1,10 +1,10 @@
 package item
 
 import (
-	"net/http"
 	"bbbe/config"
 	"bbbe/models"
 	"bbbe/utils"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,7 +14,7 @@ func GetItemById(c *gin.Context) {
 
 	var item models.Item
 
-	if err := config.DB.Preload("Modules").Where("id = ?", id).First(&item).Error; err != nil {
+	if err := config.DB.Where("id = ?", id).First(&item).Error; err != nil {
 		c.JSON(http.StatusNotFound, utils.FailedResponse("Data Not Found"))
 		return
 	}
