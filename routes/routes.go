@@ -9,6 +9,7 @@ import (
 	"bbbe/handlers/transaction"
 	"bbbe/handlers/user"
 	"bbbe/middleware"
+	"net/http"
 	"os"
 
 	"github.com/gin-contrib/cors"
@@ -31,6 +32,10 @@ func SetupRouter() *gin.Engine {
 
 	r.Static("/static", os.Getenv("PATH_STATIC"))
 	// Define routes
+	// Define routes
+	r.GET("/", func(c *gin.Context){
+		c.JSON(http.StatusOK, gin.H{"test":"berhasil"})
+	})
 	r.POST("/login", user.Login)
 	r.GET("/auth/refresh", user.RefreshToken)
 	r.POST("/users", user.CreateUser)
