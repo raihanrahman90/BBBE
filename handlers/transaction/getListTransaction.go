@@ -23,7 +23,7 @@ func GetListTransaction(c *gin.Context) {
 
 	offset, limit := utils.GetPagination(c)
 
-	if err := query.Offset(offset).Limit(limit).Preload("ItemImage").Find(&order).Error; err != nil {
+	if err := query.Offset(offset).Limit(limit).Find(&order).Error; err != nil {
 		c.JSON(http.StatusNotFound, utils.FailedResponse("Data Not Found"))
 		return
 	}
