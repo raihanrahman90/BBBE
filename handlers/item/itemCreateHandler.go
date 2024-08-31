@@ -24,7 +24,7 @@ func CreateItem(c *gin.Context) {
 
 	imagePath, err := utils.SaveBase64Image(requestData.Image)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, utils.FailedResponse("Failed to save image"))
+		c.JSON(http.StatusInternalServerError, utils.FailedResponse(err.Error()))
 		return
 	}
 
