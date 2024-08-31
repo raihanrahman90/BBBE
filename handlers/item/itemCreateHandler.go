@@ -1,10 +1,10 @@
 package item
 
 import (
-	"net/http"
 	"bbbe/config"
 	"bbbe/models"
 	"bbbe/utils"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,6 +14,7 @@ func CreateItem(c *gin.Context) {
 		Name        string `json:"name"`
 		Price       int    `json:"price"`
 		Description string `json:"description"`
+		Image       string `json:"image"`
 	}
 
 	if err := c.ShouldBindJSON(&requestData); err != nil {
@@ -21,10 +22,17 @@ func CreateItem(c *gin.Context) {
 		return
 	}
 
+	imagePath, err := utils.SaveBase64Image(requestData.Image)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, utils.FailedResponse("Failed to save image"))
+		return
+	}
+
 	class := models.Item{
 		Name:        requestData.Name,
 		Price:       requestData.Price,
 		Description: requestData.Description,
+		Image:       imagePath,
 	}
 
 	if err := config.DB.Create(&class).Error; err != nil {

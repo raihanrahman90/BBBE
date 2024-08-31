@@ -10,33 +10,35 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CreateItem(c *gin.Context) {
+func CreateTransaction(c *gin.Context) {
 	userId, _ := c.Get("userId")
-	type requestItem struct {
-		Id		string	`json:"id"`
-		Amount	int		`json:"amount"`
-		Price	int		`json:"price"`
-	}
-	var requestData []requestItem;
+	var requestItem []string
+	var listCart []models.Cart
 
-	if err := c.ShouldBindJSON(&requestData); err != nil {
+	if err := c.ShouldBindJSON(&requestItem); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
+	if err := config.DB.Where("id in ?", listCart).Preload("Item").Find(&listCart).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, utils.FailedResponse("Failed to get cart"))
+		return
+	}
 	var orderItems []models.OrderItem
-	for _, data := range requestData {
+	for _, cart := range listCart {
 		orderItem := models.OrderItem{
-			ItemID: data.Id,
-			Amount: data.Amount,
-			Price: data.Price,
+			ItemID: cart.ItemID,
+			Amount: cart.Amount,
+			Price:  cart.Item.Price,
+			Image:  cart.Item.Image,
+			Name:   cart.Item.Name,
 		}
-		orderItems = append(orderItems, orderItem)		
+		orderItems = append(orderItems, orderItem)
 	}
 
 	order := models.Order{
-		UserID: userId.(string),
-		Date: time.Now(),
+		UserID:    userId.(string),
+		Date:      time.Now(),
 		OrderItem: orderItems,
 	}
 
@@ -45,7 +47,8 @@ func CreateItem(c *gin.Context) {
 		return
 	}
 
+	config.DB.Delete(&listCart)
 	// Response
-	responseData := response(order)
+	responseData := responseDetailTransaction(order)
 	c.JSON(http.StatusOK, utils.SuccessResponse(responseData))
 }

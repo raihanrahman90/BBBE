@@ -2,13 +2,14 @@
 package routes
 
 import (
-	"os"
 	"bbbe/handlers/article"
 	"bbbe/handlers/item"
 	landingpage "bbbe/handlers/landingPage"
 	"bbbe/handlers/testimoni"
+	"bbbe/handlers/transaction"
 	"bbbe/handlers/user"
 	"bbbe/middleware"
+	"os"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -66,13 +67,17 @@ func SetupRouter() *gin.Engine {
 		protected.GET("/item/:id", item.GetItemById)
 		protected.POST("/item/:id", item.UpdateItem)
 		protected.DELETE("/item/:id", item.DeleteItem)
-		protected.POST("/item-image", item.CreateItemImage)
-		protected.DELETE("/item-image/:id", item.DeleteItemImage)
 
 		protected.GET("/landing-page", landingpage.GetLandingPageData)
 		protected.POST("/landing-page", landingpage.UpdateDataLandingPage)
 
-		protected.GET("/transaction", transaction)
-	}
+		protected.GET("/transaction", transaction.GetListTransaction)
+		protected.POST("/transaction", transaction.CreateTransaction)
+		protected.GET("/transaction/:id", transaction.GetDetailTranscation)
+		protected.PUT("/transaction/:id/cancel", transaction.CancelTransaction)
+		protected.PUT("/transaction/:id/payment", transaction.PaymentTransaction)
+		protected.PUT("/transaction/:id/confirm", transaction.ConfirmTransaction)
 
+	}
+	return r
 }

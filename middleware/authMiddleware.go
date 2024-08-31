@@ -19,7 +19,7 @@ func AuthMiddleware() gin.HandlerFunc {
 		}
 
 		tokenSplit := strings.Split(tokenString, " ")
-		token := tokenSplit[1] 
+		token := tokenSplit[1]
 
 		claims, err := utils.ParseJWT(token)
 
@@ -29,9 +29,9 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		c.set("userId", claims.UserId)
+		c.Set("userId", claims.UserId)
 		c.Set("username", claims.Username)
-    	c.Set("access", claims.Access)
+		c.Set("access", claims.Access)
 		c.Next()
 	}
 }

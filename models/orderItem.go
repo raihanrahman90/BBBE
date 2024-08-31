@@ -5,8 +5,10 @@ type OrderItem struct {
 	DefaultModel
 	Order   Order  `json:"order"`
 	OrderID string `json:"orderID"`
-	Item	Item   `json:"item"`
-	ItemID	string `json:"itemID"`
+	Item    Item   `json:"item"`
+	ItemID  string `json:"itemID"`
+	Name    string `json:"name"`
 	Price   int    `json:"price"`
 	Amount  int    `json:"amount"`
+	Image   string `json:"image"`
 }
