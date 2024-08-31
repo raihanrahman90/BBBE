@@ -1,17 +1,16 @@
 name: Auto Pull
-on:  [push]
+on: [push]
 jobs:
   build:
-    name:  Build
-    runs-on:  ubuntu-latest
+    name: Build
+    runs-on: ubuntu-latest
     steps:
-    - name:  execute remote pull
-      uses:  appleboy/ssh-action@master
-      with:
-        host:  ${{secrets.IP}}
-        username:  ${{secrets.USERNAME}}
-        password:  ${{secrets.PASSWORD}}
-        port:  ${{secrets.PORT}}
-        script:
-          cd /root/bbbe
-          git pull origin dev
+      - name: execute remote pull
+        uses: appleboy/ssh-action@master
+        with:
+          host: 103.181.183.36
+          username: root
+          password: BaRiVern39
+          port: 22
+          script: cd /root/bbbe
+            git pull origin dev
