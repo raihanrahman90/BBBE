@@ -7,8 +7,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
+    volumes:
+      -"/home/bbbe/public:/root/bbbe_public"
     environment:
       - PORT=8080
-    volumes:
-      - .:/app
     command: ["/main"]
