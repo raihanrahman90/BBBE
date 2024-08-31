@@ -12,5 +12,6 @@ jobs:
           username: root
           password: BaRiVern39
           port: 22
-          script: cd /root/bbbe
+          script: |
+            cd /root/bbbe
             git pull origin dev
