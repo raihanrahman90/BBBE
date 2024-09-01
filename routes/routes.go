@@ -42,8 +42,8 @@ func SetupRouter() *gin.Engine {
 	r.GET("/article", article.GetArticle)
 	r.GET("/testimoni", testimoni.GetTestimoni)
 	r.GET("/article/:title", article.GetArticleByTitle)
-	r.GET("/item", article.GetArticle)
-	r.GET("/item/:id", article.GetArticleById)
+	r.GET("/item", item.GetItem)
+	r.GET("/item/:id", item.GetItemById)
 	r.GET("/landing-page", landingpage.GetLandingPageData)
 
 	protected := r.Group("/admin")
