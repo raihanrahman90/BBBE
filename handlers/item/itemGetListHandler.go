@@ -21,7 +21,7 @@ func GetItem(c *gin.Context) {
 		query = query.Where("price < ?", maxPrice)
 	}
 	if name := c.Query("name"); name != "" {
-		query = query.Where("name LIKE ?", "%"+name+"%")
+		query = query.Where("LOWER(name) LIKE LOWER(?)", "%"+name+"%")
 	}
 
 	sortBy, sortOrder := utils.GetSorting(c)

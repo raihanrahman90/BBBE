@@ -14,8 +14,8 @@ func GetListTransaction(c *gin.Context) {
 	var order []models.Order
 	query := config.DB.Model(&models.Order{})
 
-	if name := c.Query("name"); name != "" {
-		query = query.Where("name LIKE ?", "%"+name+"%")
+	if status := c.Query("status"); status != "" {
+		query = query.Where("LOWER(status) = LOWER(?)", status)
 	}
 
 	sortBy, sortOrder := utils.GetSorting(c)
