@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"math"
 	"net/http"
 	"strconv"
 
@@ -39,7 +40,7 @@ func SuccessResponsePagination(response interface{}, totalItem int, pageSize int
 	defaultResponse.IsSuccess 	= true
 	defaultResponse.Status		= 200
 	defaultResponse.Message		= "success"
-	defaultResponse.TotalPage	= (totalItem + pageSize -1)/(pageSize)
+	defaultResponse.TotalPage	= int(math.Ceil(float64(totalItem)/float64(pageSize)))
 	defaultResponse.Page		= page;
 	return defaultResponse;
 }
