@@ -21,7 +21,7 @@ func GetListTransaction(c *gin.Context) {
 	sortBy, sortOrder := utils.GetSorting(c)
 	query = query.Order(fmt.Sprintf("%s %s", sortBy, sortOrder))
 
-	offset, limit := utils.GetPagination(c)
+	offset, limit, page := utils.GetPagination(c)
 
 	if err := query.Offset(offset).Limit(limit).Find(&order).Error; err != nil {
 		c.JSON(http.StatusNotFound, utils.FailedResponse("Data Not Found"))
@@ -31,6 +31,6 @@ func GetListTransaction(c *gin.Context) {
 	query.Count(&totalItems)
 
 	responseData := responseListTransaction(order)
-	c.JSON(http.StatusOK, utils.SuccessResponsePagination(responseData, int(totalItems), limit))
+	c.JSON(http.StatusOK, utils.SuccessResponsePagination(responseData, int(totalItems), limit, page))
 
 }

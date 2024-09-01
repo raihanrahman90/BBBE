@@ -27,7 +27,7 @@ func GetItem(c *gin.Context) {
 	sortBy, sortOrder := utils.GetSorting(c)
 	query = query.Order(fmt.Sprintf("%s %s", sortBy, sortOrder))
 
-	offset, limit := utils.GetPagination(c)
+	offset, limit, page := utils.GetPagination(c)
 
 	if err := query.Offset(offset).Limit(limit).Find(&item).Error; err != nil {
 		c.JSON(http.StatusNotFound, utils.FailedResponse("Data Not Found"))
@@ -37,5 +37,5 @@ func GetItem(c *gin.Context) {
 	query.Count(&totalItems)
 
 	responseData := responseList(item)
-	c.JSON(http.StatusOK, utils.SuccessResponsePagination(responseData, int(totalItems), limit))
+	c.JSON(http.StatusOK, utils.SuccessResponsePagination(responseData, int(totalItems), limit, page))
 }

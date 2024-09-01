@@ -20,7 +20,8 @@ type DefaultResponse struct {
 	Status 		int			`json:"status"`
 	Data 		interface{}	`json:"data"`
 	Message		string		`json:"message"`
-	TotalPage	int			`json:"total_page"`
+	TotalPage	int			`json:"totalPage"`
+	Page		int			`json:"page"`
 }
 
 func SuccessResponse(response interface{}) DefaultResponse{
@@ -32,13 +33,14 @@ func SuccessResponse(response interface{}) DefaultResponse{
 	return defaultResponse;
 }
 
-func SuccessResponsePagination(response interface{}, totalItem int, pageSize int) DefaultResponse{
+func SuccessResponsePagination(response interface{}, totalItem int, pageSize int, page int) DefaultResponse{
 	var defaultResponse DefaultResponse
 	defaultResponse.Data 		= response
 	defaultResponse.IsSuccess 	= true
 	defaultResponse.Status		= 200
 	defaultResponse.Message		= "success"
 	defaultResponse.TotalPage	= (totalItem + pageSize -1)/(pageSize)
+	defaultResponse.Page		= page;
 	return defaultResponse;
 }
 
@@ -51,7 +53,7 @@ func FailedResponse(message string) DefaultResponse{
 		return defaultResponse;
 }
 
-func GetPagination(c *gin.Context) (int, int){
+func GetPagination(c *gin.Context) (int, int, int){
 	page := c.DefaultQuery("page", "1")
     pageSize := c.DefaultQuery("pageSize", "10")
 	var pageInt, pageSizeInt int
@@ -65,7 +67,7 @@ func GetPagination(c *gin.Context) (int, int){
     }
 
 	offset := (pageInt - 1) * pageSizeInt
-	return offset, pageSizeInt;
+	return offset, pageSizeInt, pageInt;
 }
 
 func GetSorting(c *gin.Context) (string, string) {
