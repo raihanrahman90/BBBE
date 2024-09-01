@@ -20,12 +20,12 @@ func GetUser(c *gin.Context) {
 
 	offset, limit, page := utils.GetPagination(c)
 
+	var totalItems int64
+	query.Count(&totalItems)
 	if err := query.Offset(offset).Limit(limit).Find(&user).Error; err != nil {
 		c.JSON(http.StatusNotFound, utils.FailedResponse("Data Not Found"))
 		return
 	}
-	var totalItems int64
-	query.Count(&totalItems)
 
 	c.JSON(http.StatusOK, utils.SuccessResponsePagination(user, int(totalItems), limit, page))
 }

@@ -29,12 +29,12 @@ func GetItem(c *gin.Context) {
 
 	offset, limit, page := utils.GetPagination(c)
 
+	var totalItems int64
+	query.Count(&totalItems)
 	if err := query.Offset(offset).Limit(limit).Find(&item).Error; err != nil {
 		c.JSON(http.StatusNotFound, utils.FailedResponse("Data Not Found"))
 		return
 	}
-	var totalItems int64
-	query.Count(&totalItems)
 
 	responseData := responseList(item)
 	c.JSON(http.StatusOK, utils.SuccessResponsePagination(responseData, int(totalItems), limit, page))

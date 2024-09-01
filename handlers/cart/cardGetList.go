@@ -12,16 +12,16 @@ import (
 func GetListCard(c *gin.Context) {
 	var cart []models.Cart
 	query := config.DB.Model(&models.Cart{})
-	offset, limit := utils.GetPagination(c)
+	offset, limit, page := utils.GetPagination(c)
 
+	var totalItems int64
+	query.Count(&totalItems)
 	if err := query.Offset(offset).Limit(limit).Preload("Item").Find(&cart).Error; err != nil {
 		c.JSON(http.StatusNotFound, utils.FailedResponse("Data Not Found"))
 		return
 	}
-	var totalItems int64
-	query.Count(&totalItems)
 
 	responseData := responseList(cart)
-	c.JSON(http.StatusOK, utils.SuccessResponsePagination(responseData, int(totalItems), limit))
+	c.JSON(http.StatusOK, utils.SuccessResponsePagination(responseData, int(totalItems), limit, page))
 
 }
