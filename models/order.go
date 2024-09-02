@@ -12,4 +12,7 @@ type Order struct {
 	Date    	time.Time `json:"date"`
 	Status  	string    `json:"status"`
 	ProofOfPayment	string	`json:"proof_of_payment"`
+	Address		string	  `json:"address"`
+	City		string	  `json:"city"`
+	Province	string		`json:"province"`
 }

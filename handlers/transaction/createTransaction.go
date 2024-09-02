@@ -12,7 +12,12 @@ import (
 
 func CreateTransaction(c *gin.Context) {
 	userId, _ := c.Get("userId")
-	var requestItem []string
+	var requestItem struct {
+		Item		[]string	`json:"item"`
+		Address		string	  `json:"address"`
+		City		string	  `json:"city"`
+		Province	string		`json:"province"`
+	}
 	var listCart []models.Cart
 
 	if err := c.ShouldBindJSON(&requestItem); err != nil {
@@ -20,7 +25,7 @@ func CreateTransaction(c *gin.Context) {
 		return
 	}
 
-	if err := config.DB.Where("id in ?", listCart).Preload("Item").Find(&listCart).Error; err != nil {
+	if err := config.DB.Where("id in ?", requestItem.Item).Find(&listCart).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, utils.FailedResponse("Failed to get cart"))
 		return
 	}
