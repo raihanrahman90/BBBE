@@ -13,7 +13,10 @@ import (
 func GetItem(c *gin.Context) {
 	var item []models.Item
 	query := config.DB.Model(&models.Item{})
-
+	
+	if category := c.Query("category"); category != "" {
+		query = query.Where("category = ?", category)
+	}
 	if minPrice := c.Query("minPrice"); minPrice != "" {
 		query = query.Where("price > ?", minPrice)
 	}

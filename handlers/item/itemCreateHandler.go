@@ -14,6 +14,7 @@ func CreateItem(c *gin.Context) {
 		Name        string `json:"name"`
 		Price       int    `json:"price"`
 		Description string `json:"description"`
+		Category	*string `json:"category"`
 		Image       string `json:"image"`
 	}
 
@@ -32,6 +33,7 @@ func CreateItem(c *gin.Context) {
 		Name:        requestData.Name,
 		Price:       requestData.Price,
 		Description: requestData.Description,
+		Category: 	 requestData.Category,
 		Image:       imagePath,
 	}
 

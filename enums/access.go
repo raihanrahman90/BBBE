@@ -4,5 +4,5 @@ type Access int
 
 const (
 	Admin Access = iota
-	Teacher
+	User  Access = 2
 )

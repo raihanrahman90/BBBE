@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetListCard(c *gin.Context) {
+func GetListCart(c *gin.Context) {
 	var cart []models.Cart
 	query := config.DB.Model(&models.Cart{})
 	offset, limit, page := utils.GetPagination(c)

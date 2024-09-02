@@ -17,6 +17,7 @@ func UpdateItem(c *gin.Context) {
 		Name        string `json:"name"`
 		Price       int    `json:"price"`
 		Description string `json:"description"`
+		Category	*string `json:"category"`
 		Image		string `json:"image"`
 	}
 	var item models.Item
@@ -35,6 +36,7 @@ func UpdateItem(c *gin.Context) {
 	item.Name = requestData.Name
 	item.Price = requestData.Price
 	item.Description = requestData.Description
+	item.Category = requestData.Category
 
 	if len(strings.TrimSpace(requestData.Image)) >0 {
 		imagePath, err := utils.SaveBase64Image(requestData.Image)

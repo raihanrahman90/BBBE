@@ -3,6 +3,7 @@ package routes
 
 import (
 	"bbbe/handlers/article"
+	"bbbe/handlers/cart"
 	"bbbe/handlers/item"
 	landingpage "bbbe/handlers/landingPage"
 	"bbbe/handlers/testimoni"
@@ -82,7 +83,22 @@ func SetupRouter() *gin.Engine {
 		protected.PUT("/transaction/:id/cancel", transaction.CancelTransaction)
 		protected.PUT("/transaction/:id/payment", transaction.PaymentTransaction)
 		protected.PUT("/transaction/:id/confirm", transaction.ConfirmTransaction)
+	}
 
+	
+	user := r.Group("/me")
+	user.Use(middleware.AuthMiddleware())
+	{
+		user.GET("/cart", cart.GetListCart)
+		user.POST("/cart", cart.CreateCart)
+		user.DELETE("/cart", cart.DeleteCart)
+		user.PUT("/card/:id", cart.UpdateCart)
+
+		user.GET("/transaction", transaction.GetListTransaction)
+		user.POST("/transaction", transaction.CreateTransaction)
+		user.GET("/transaction/:id", transaction.GetDetailTranscation)
+		user.PUT("/transaction/:id/cancel", transaction.CancelTransaction)
+		user.PUT("/transaction/:id/payment", transaction.PaymentTransaction)
 	}
 	return r
 }
