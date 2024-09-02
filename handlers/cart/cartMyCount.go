@@ -9,19 +9,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetListCart(c *gin.Context) {
-	var cart []models.Cart
+func GetMyCount(c *gin.Context) {
 	query := config.DB.Model(&models.Cart{})
-	offset, limit, page := utils.GetPagination(c)
+
+	userId, _ := c.Get("userId")
+	query = query.Where("user_id = ?", userId);
 
 	var totalItems int64
 	query.Count(&totalItems)
-	if err := query.Offset(offset).Limit(limit).Preload("Item").Find(&cart).Error; err != nil {
-		c.JSON(http.StatusNotFound, utils.FailedResponse("Data Not Found"))
-		return
-	}
 
-	responseData := responseList(cart)
-	c.JSON(http.StatusOK, utils.SuccessResponsePagination(responseData, int(totalItems), limit, page))
+	c.JSON(http.StatusOK, utils.SuccessResponse(totalItems))
 
 }

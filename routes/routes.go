@@ -91,7 +91,8 @@ func SetupRouter() *gin.Engine {
 	{
 		user.GET("/cart", cart.GetListCart)
 		user.POST("/cart", cart.CreateCart)
-		user.DELETE("/cart", cart.DeleteCart)
+		user.GET("/cart/count", cart.GetMyCount)
+		user.DELETE("/cart/:id", cart.DeleteCart)
 		user.PUT("/card/:id", cart.UpdateCart)
 
 		user.GET("/transaction", transaction.GetListTransaction)
