@@ -30,7 +30,7 @@ func CreateAddress(c *gin.Context) {
 	}
 
 	if err := config.DB.Create(&address).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, utils.FailedResponse("Internal Server Error"))
+		c.JSON(http.StatusInternalServerError, utils.FailedResponse(err.Error()))
 		return
 	}
 

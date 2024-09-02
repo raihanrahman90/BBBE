@@ -48,7 +48,7 @@ func CreateTransaction(c *gin.Context) {
 	}
 
 	if err := config.DB.Create(&order).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 

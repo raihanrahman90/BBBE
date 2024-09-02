@@ -38,7 +38,7 @@ func CreateItem(c *gin.Context) {
 	}
 
 	if err := config.DB.Create(&class).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 

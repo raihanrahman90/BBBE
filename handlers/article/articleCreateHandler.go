@@ -1,10 +1,10 @@
 package article
 
 import (
-	"net/http"
 	"bbbe/config"
 	"bbbe/models"
 	"bbbe/utils"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -42,7 +42,7 @@ func CreateArticle(c *gin.Context) {
 	}
 
 	if err := config.DB.Create(&article).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, utils.FailedResponse("Internal Server Error"))
+		c.JSON(http.StatusInternalServerError, utils.FailedResponse(err.Error()))
 		return
 	}
 

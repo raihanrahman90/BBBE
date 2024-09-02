@@ -13,12 +13,12 @@ func DeleteCart(c *gin.Context) {
 	id := c.Param("id")
 	var cart models.Cart
 	if err := config.DB.Where("id = ?", id).First(&cart).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, utils.FailedResponse("Internal Server Error"))
+		c.JSON(http.StatusInternalServerError, utils.FailedResponse(err.Error()))
 		return
 	}
 
 	if err := config.DB.Delete(&cart).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, utils.FailedResponse("Internal Server Error"))
+		c.JSON(http.StatusInternalServerError, utils.FailedResponse(err.Error()))
 		return
 	}
 

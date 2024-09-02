@@ -1,10 +1,10 @@
 package article
 
 import (
-	"net/http"
 	"bbbe/config"
 	"bbbe/models"
 	"bbbe/utils"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,12 +13,12 @@ func DeleteArticle(c *gin.Context) {
 	id := c.Param("id")
 	var article models.Article
 	if err := config.DB.Where("id = ?", id).First(&article).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, utils.FailedResponse("Internal Server Error"));
+		c.JSON(http.StatusInternalServerError, utils.FailedResponse(err.Error()));
 		return
 	}
 
 	if err := config.DB.Delete(&article).Error; err!=nil{
-		c.JSON(http.StatusInternalServerError, utils.FailedResponse("Internal Server Error"));
+		c.JSON(http.StatusInternalServerError, utils.FailedResponse(err.Error()));
 		return;
 	}
 
