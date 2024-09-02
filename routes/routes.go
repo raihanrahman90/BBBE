@@ -2,6 +2,7 @@
 package routes
 
 import (
+	"bbbe/handlers/address"
 	"bbbe/handlers/article"
 	"bbbe/handlers/cart"
 	"bbbe/handlers/item"
@@ -100,6 +101,10 @@ func SetupRouter() *gin.Engine {
 		user.GET("/transaction/:id", transaction.GetDetailTranscation)
 		user.PUT("/transaction/:id/cancel", transaction.CancelTransaction)
 		user.PUT("/transaction/:id/payment", transaction.PaymentTransaction)
+
+		user.GET("/address", address.GetListAddress)
+		user.POST("/address", address.CreateAddress)
+		user.DELETE("/address", address.DeleteAddress)
 	}
 	return r
 }
