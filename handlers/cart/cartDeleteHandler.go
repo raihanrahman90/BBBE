@@ -10,9 +10,10 @@ import (
 )
 
 func DeleteCart(c *gin.Context) {
+	userId,_ := c.Get("userId")
 	id := c.Param("id")
 	var cart models.Cart
-	if err := config.DB.Where("itemId = ? and userId = ?", id).First(&cart).Error; err != nil {
+	if err := config.DB.Where("itemId = ? and userId = ?", id, userId).First(&cart).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, utils.FailedResponse(err.Error()))
 		return
 	}
