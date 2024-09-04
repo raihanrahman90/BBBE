@@ -90,6 +90,7 @@ func SetupRouter() *gin.Engine {
 	user := r.Group("/me")
 	user.Use(middleware.AuthMiddleware())
 	{
+		user.GET("/cart", cart.GetListMyCart)
 		user.POST("/cart", cart.CreateCart)
 		user.GET("/cart/count", cart.GetMyCount)
 		user.DELETE("/cart/:id", cart.DeleteCart)
