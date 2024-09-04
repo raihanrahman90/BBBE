@@ -32,11 +32,13 @@ func CreateTransaction(c *gin.Context) {
 		return
 	}
 	var orderItems []models.OrderItem
-	for _, cart := range reques {
-
+	for _, item := range items {
 		orderItem := models.OrderItem{
-			ItemID: cart.ItemID,
-			Amount: cart.Amount,
+			ItemID: item.ID,
+			Amount: request[item.ID],
+			Name:   item.Name,
+			Price:  item.Price,
+			Image:  item.Image,
 		}
 		orderItems = append(orderItems, orderItem)
 	}
