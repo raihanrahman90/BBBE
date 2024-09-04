@@ -12,7 +12,7 @@ import (
 func DeleteCart(c *gin.Context) {
 	id := c.Param("id")
 	var cart models.Cart
-	if err := config.DB.Where("id = ?", id).First(&cart).Error; err != nil {
+	if err := config.DB.Where("itemId = ? and userId = ?", id).First(&cart).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, utils.FailedResponse(err.Error()))
 		return
 	}

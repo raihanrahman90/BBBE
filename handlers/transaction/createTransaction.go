@@ -12,31 +12,31 @@ import (
 
 func CreateTransaction(c *gin.Context) {
 	userId, _ := c.Get("userId")
-	var requestItem struct {
-		Item		[]string	`json:"item"`
-		Address		string	  `json:"address"`
-		City		string	  `json:"city"`
-		Province	string		`json:"province"`
-	}
+	var request map[string]int
 	var listCart []models.Cart
 
-	if err := c.ShouldBindJSON(&requestItem); err != nil {
+	if err := c.ShouldBindJSON(&request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	if err := config.DB.Where("id in ?", requestItem.Item).Find(&listCart).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, utils.FailedResponse("Failed to get cart"))
+	itemIds := getAllItemId(request)
+	var items []models.Item
+	if err := config.DB.Where("id in ?", itemIds).Find(&items).Error; err != nil{
+		c.JSON(http.StatusInternalServerError, utils.FailedResponse(err.Error()));
+		return
+	}
+
+	if err := config.DB.Where("userID = ?", userId).Find(&listCart).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, utils.FailedResponse(err.Error()));
 		return
 	}
 	var orderItems []models.OrderItem
-	for _, cart := range listCart {
+	for _, cart := range reques {
+
 		orderItem := models.OrderItem{
 			ItemID: cart.ItemID,
 			Amount: cart.Amount,
-			Price:  cart.Item.Price,
-			Image:  cart.Item.Image,
-			Name:   cart.Item.Name,
 		}
 		orderItems = append(orderItems, orderItem)
 	}
@@ -56,4 +56,12 @@ func CreateTransaction(c *gin.Context) {
 	// Response
 	responseData := responseDetailTransaction(order)
 	c.JSON(http.StatusOK, utils.SuccessResponse(responseData))
+}
+
+func getAllItemId(data map[string]int) []string{
+    keys := make([]string, 0, len(data))
+    for k := range data {
+        keys = append(keys, k)
+    }
+	return keys;
 }

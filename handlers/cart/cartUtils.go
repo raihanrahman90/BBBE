@@ -6,23 +6,19 @@ import (
 )
 
 type responseDTO struct {
-	ID        string `json:"id"`
-	ItemName  string `json:"item_name"`
-	ItemPrice int    `json:"item_price"`
-	ItemImage string `json:"item_image"`
-	Amount    int    `json:"amount"`
-	SubTotal  int    `json:"sub_total"`
+	ItemID	  string `json:"itemId"`
+	ItemName  string `json:"itemName"`
+	ItemPrice int    `json:"itemPrice"`
+	ItemImage string `json:"itemImage"`
 }
 
 func response(data models.Cart) responseDTO {
 	var response responseDTO
 	item := data.Item
-	response.ID = data.ID
+	response.ItemID = item.ID
 	response.ItemName = item.Name
 	response.ItemPrice = item.Price
 	response.ItemImage = utils.GetImageUrl(item.Image)
-	response.Amount = data.Amount
-	response.SubTotal = item.Price * data.Amount
 	return response
 }
 

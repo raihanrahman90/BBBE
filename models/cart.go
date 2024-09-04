@@ -7,5 +7,4 @@ type Cart struct {
 	ItemID 	string 		`json:"itemID"`
 	User    User      	`json:"user"`
 	UserID  string    	`json:"userID"`
-	Amount  int    		`json:"amount"`
 }

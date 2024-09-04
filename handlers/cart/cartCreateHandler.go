@@ -12,8 +12,7 @@ import (
 func CreateCart(c *gin.Context) {
 	userId,_ := c.Get("userId")
 	var requestData struct {
-		ItemId string `json:"item_id"`
-		Amount  int `json:"amount"`
+		ItemId string `json:"itemId"`
 	}
 
 	if err := c.ShouldBindJSON(&requestData); err != nil {
@@ -23,7 +22,6 @@ func CreateCart(c *gin.Context) {
 
 	cart := models.Cart{
 		ItemID: requestData.ItemId,
-		Amount: requestData.Amount,
 		UserID: userId.(string),
 	}
 
