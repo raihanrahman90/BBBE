@@ -27,7 +27,7 @@ func CreateTransaction(c *gin.Context) {
 		return
 	}
 
-	if err := config.DB.Where("userID = ?", userId).Find(&listCart).Error; err != nil {
+	if err := config.DB.Where("user_id = ?", userId).Find(&listCart).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, utils.FailedResponse(err.Error()));
 		return
 	}
