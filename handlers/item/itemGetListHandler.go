@@ -35,7 +35,7 @@ func GetItem(c *gin.Context) {
 	var totalItems int64
 	query.Count(&totalItems)
 	if err := query.Offset(offset).Limit(limit).Find(&item).Error; err != nil {
-		c.JSON(http.StatusNotFound, utils.FailedResponse("Data Not Found"))
+		c.JSON(http.StatusNotFound, utils.FailedResponse(err.Error()))
 		return
 	}
 

@@ -12,6 +12,7 @@ type responseDTO struct {
 	Description string `json:"description"`
 	Image       string `json:"image"`
 	Category	*string `json:"category"`
+	Rating		int		`json:"rating"`
 }
 
 func response(data models.Item) responseDTO {
@@ -22,6 +23,7 @@ func response(data models.Item) responseDTO {
 	response.Description = data.Description
 	response.Category = data.Category
 	response.Image = utils.GetImageUrl(data.Image)
+	response.Rating = 4
 	return response
 }
 
