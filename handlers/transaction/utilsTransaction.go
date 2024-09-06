@@ -2,6 +2,7 @@ package transaction
 
 import (
 	"bbbe/models"
+	"bbbe/utils"
 	"time"
 )
 
@@ -14,7 +15,7 @@ type responseTransactionDTO struct {
 	Total     int                        `json:"total"`
 	Date      time.Time                  `json:"date"`
 	Status    string                     `json:"status"`
-	Item      responseTransactionItemDTO `json:"item"`
+	Item	  []responseTransactionItemDTO	`json:"item"`
 }
 
 type responseTransactionItemDTO struct {
@@ -36,6 +37,7 @@ func responseTransaction(data models.Order) responseTransactionDTO {
 	response.Status = data.Status
 	response.Date = data.Date
 	response.CountItem = len(data.OrderItem)
+	response.Total = data.Total
 	return response
 }
 
@@ -51,14 +53,30 @@ func responseListTransaction(datas []models.Order) []responseTransactionDTO {
 
 func responseDetailTransaction(data models.Order) responseTransactionDTO {
 	var response responseTransactionDTO
-	var item models.OrderItem
-	item = data.OrderItem[0]
+	var responseItem []responseTransactionItemDTO
+	item := data.OrderItem[0]
 	response.ID = data.ID
 	response.ItemName = item.Name
 	response.ItemPrice = item.Price
-	response.ItemImage = item.Image
+	response.ItemImage = utils.GetImageUrl(item.Image)
 	response.Status = data.Status
 	response.Date = data.Date
 	response.CountItem = len(data.OrderItem)
+	response.Total = data.Total
+	for _, dataOrder := range data.OrderItem{
+		item := responseItemTransaction(dataOrder)
+		responseItem = append(responseItem, item)
+	}
+	response.Item = responseItem;
 	return response
+}
+
+func responseItemTransaction(data models.OrderItem) responseTransactionItemDTO{
+	var response responseTransactionItemDTO
+	response.Amount = data.Amount
+	response.ItemImage = utils.GetImageUrl(data.Image)
+	response.ItemName = data.Name
+	response.ItemPrice = data.Price
+	response.SubTotal = data.Amount * data.Price
+	return response;
 }

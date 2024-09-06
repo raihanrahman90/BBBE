@@ -2,6 +2,7 @@ package transaction
 
 import (
 	"bbbe/config"
+	"bbbe/enums"
 	"bbbe/models"
 	"bbbe/utils"
 	"net/http"
@@ -31,6 +32,7 @@ func CreateTransaction(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, utils.FailedResponse(err.Error()));
 		return
 	}
+	total := 0;
 	var orderItems []models.OrderItem
 	for _, item := range items {
 		orderItem := models.OrderItem{
@@ -40,6 +42,7 @@ func CreateTransaction(c *gin.Context) {
 			Price:  item.Price,
 			Image:  item.Image,
 		}
+		total = total + (orderItem.Amount * orderItem.Price)
 		orderItems = append(orderItems, orderItem)
 	}
 
@@ -47,6 +50,8 @@ func CreateTransaction(c *gin.Context) {
 		UserID:    userId.(string),
 		Date:      time.Now(),
 		OrderItem: orderItems,
+		Total: 		total,
+		Status: 	string(enums.WAITING_PAYMENT),
 	}
 
 	if err := config.DB.Create(&order).Error; err != nil {
