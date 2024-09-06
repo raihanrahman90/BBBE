@@ -10,19 +10,17 @@ import (
 )
 
 func GetListAddress(c *gin.Context) {
-	var address []models.Address
+	var address models.Address
 	userId,_ := c.Get("userId")
+	username,_ := c.Get("username")
 	query := config.DB.Model(&models.Address{})
-	offset, limit, page := utils.GetPagination(c)
-	query = query.Where("userId = ?", userId)
+	query = query.Where("user_id = ?", userId).Preload("User")
 
-	var totalItems int64
-	query.Count(&totalItems)
-	if err := query.Offset(offset).Limit(limit).Find(&address).Error; err != nil {
-		c.JSON(http.StatusNotFound, utils.FailedResponse("Data Not Found"))
+	if err := query.First(&address).Error; err != nil {
+		c.JSON(http.StatusOK, utils.SuccessResponse(gin.H{"username":username}))
 		return
 	}
-
-	c.JSON(http.StatusOK, utils.SuccessResponsePagination(address, int(totalItems), limit, page))
+	response := responseConvert(address);
+	c.JSON(http.StatusOK, utils.SuccessResponse(response))
 
 }

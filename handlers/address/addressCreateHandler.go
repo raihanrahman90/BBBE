@@ -11,6 +11,8 @@ import (
 
 func CreateAddress(c *gin.Context) {
 	userId,_ := c.Get("userId")
+	username,_ := c.Get("username")
+
 	var requestData struct {
 		Address  	string      `json:"address"`
 		City		string	  	`json:"city"`
@@ -21,18 +23,23 @@ func CreateAddress(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, utils.FailedResponse("Bad Request"))
 		return
 	}
-
-	address := models.Address{
-		UserID: userId.(string),
-		Address: requestData.Address,
-		City: requestData.City,
-		Province: requestData.Province,
+	var address models.Address;
+	if err := config.DB.Where("user_id = ?", userId).Find(&address).Error; err != nil{
+		c.JSON(http.StatusInternalServerError, utils.FailedResponse(err.Error()));
+		return;
 	}
 
-	if err := config.DB.Create(&address).Error; err != nil {
+	address.UserID = userId.(string)
+	address.Address= requestData.Address
+	address.City= requestData.City
+	address.Province= requestData.Province
+
+	if err := config.DB.Save(&address).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, utils.FailedResponse(err.Error()))
 		return
 	}
 
-	c.JSON(http.StatusOK, utils.SuccessResponse(address))
+	response := responseConvert(address)
+	response.Username = username.(string);
+	c.JSON(http.StatusOK, utils.SuccessResponse(response))
 }
