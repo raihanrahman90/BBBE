@@ -15,6 +15,7 @@ type responseTransactionDTO struct {
 	Total     int                        `json:"total"`
 	Date      time.Time                  `json:"date"`
 	Status    string                     `json:"status"`
+	ProofOfPayment string				 `json:"proof_of_payment"`
 	Item	  []responseTransactionItemDTO	`json:"item"`
 }
 
@@ -63,6 +64,9 @@ func responseDetailTransaction(data models.Order) responseTransactionDTO {
 	response.Date = data.Date
 	response.CountItem = len(data.OrderItem)
 	response.Total = data.Total
+	if data.ProofOfPayment != "" {
+		response.ProofOfPayment = data.ProofOfPayment
+	}
 	for _, dataOrder := range data.OrderItem{
 		item := responseItemTransaction(dataOrder)
 		responseItem = append(responseItem, item)
