@@ -65,7 +65,7 @@ func responseDetailTransaction(data models.Order) responseTransactionDTO {
 	response.CountItem = len(data.OrderItem)
 	response.Total = data.Total
 	if data.ProofOfPayment != "" {
-		response.ProofOfPayment = data.ProofOfPayment
+		response.ProofOfPayment = utils.GetImageUrl(data.ProofOfPayment)
 	}
 	for _, dataOrder := range data.OrderItem{
 		item := responseItemTransaction(dataOrder)
