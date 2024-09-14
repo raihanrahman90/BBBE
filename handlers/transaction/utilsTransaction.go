@@ -34,7 +34,7 @@ func responseTransaction(data models.Order) responseTransactionDTO {
 	response.ID = data.ID
 	response.ItemName = item.Name
 	response.ItemPrice = item.Price
-	response.ItemImage = item.Image
+	response.ItemImage = utils.GetImageUrl(item.Image)
 	response.Status = data.Status
 	response.Date = data.Date
 	response.CountItem = len(data.OrderItem)
