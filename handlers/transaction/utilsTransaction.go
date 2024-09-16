@@ -16,6 +16,7 @@ type responseTransactionDTO struct {
 	Date      time.Time                  `json:"date"`
 	Status    string                     `json:"status"`
 	ProofOfPayment string				 `json:"proof_of_payment"`
+	Username	string						`json:"username"`
 	Item	  []responseTransactionItemDTO	`json:"item"`
 }
 
@@ -39,6 +40,8 @@ func responseTransaction(data models.Order) responseTransactionDTO {
 	response.Date = data.Date
 	response.CountItem = len(data.OrderItem)
 	response.Total = data.Total
+	response.ProofOfPayment = utils.GetImageUrl(data.ProofOfPayment)
+	response.Username = data.User.Username
 	return response
 }
 
@@ -64,6 +67,8 @@ func responseDetailTransaction(data models.Order) responseTransactionDTO {
 	response.Date = data.Date
 	response.CountItem = len(data.OrderItem)
 	response.Total = data.Total
+	response.Username = data.User.Username
+	response.ProofOfPayment = utils.GetImageUrl(data.ProofOfPayment)
 	if data.ProofOfPayment != "" {
 		response.ProofOfPayment = utils.GetImageUrl(data.ProofOfPayment)
 	}

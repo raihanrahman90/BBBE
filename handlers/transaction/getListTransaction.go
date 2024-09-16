@@ -25,7 +25,7 @@ func GetListTransaction(c *gin.Context) {
 
 	var totalItems int64
 	query.Count(&totalItems)
-	if err := query.Offset(offset).Limit(limit).Preload("OrderItem").Order("date DESC").Find(&order).Error; err != nil {
+	if err := query.Offset(offset).Limit(limit).Preload("OrderItem").Preload("User").Order("date DESC").Find(&order).Error; err != nil {
 		c.JSON(http.StatusNotFound, utils.FailedResponse("Data Not Found"))
 		return
 	}
