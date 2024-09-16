@@ -28,7 +28,7 @@ func ConfirmTransaction(c *gin.Context) {
 		return;
 	}
 
-	transaction.Status = string(enums.VALIDATED_PAYMENT);
+	transaction.Status = string(enums.DONE);
 	transaction.ReceiptNumber = requestData.ReceiptNumber;
 	if err := config.DB.Save(&transaction).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, utils.FailedResponse("Failed to update data"))
