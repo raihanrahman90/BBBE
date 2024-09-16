@@ -17,6 +17,9 @@ type responseTransactionDTO struct {
 	Status    string                     `json:"status"`
 	ProofOfPayment string				 `json:"proof_of_payment"`
 	Username	string						`json:"username"`
+	City		string						`json:"city"`
+	State		string
+	Address		string
 	Item	  []responseTransactionItemDTO	`json:"item"`
 }
 

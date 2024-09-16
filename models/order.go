@@ -16,4 +16,5 @@ type Order struct {
 	City		string	  	`json:"city"`
 	Province	string		`json:"province"`
 	Total		int			`json:"total"`
+	ReceiptNumber	string	`json:"receipt_number"`
 }

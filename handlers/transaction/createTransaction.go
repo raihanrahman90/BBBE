@@ -32,6 +32,12 @@ func CreateTransaction(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, utils.FailedResponse(err.Error()));
 		return
 	}
+
+	var address models.Address;
+	if err := config.DB.Where("user_id = ?", userId).Find(&address).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, utils.FailedResponse(err.Error()));
+		return;
+	}
 	total := 0;
 	var orderItems []models.OrderItem
 	for _, item := range items {
@@ -52,6 +58,9 @@ func CreateTransaction(c *gin.Context) {
 		OrderItem: orderItems,
 		Total: 		total,
 		Status: 	string(enums.WAITING_PAYMENT),
+		Address: address.Address,
+		Province: address.Province,
+		City: address.City,
 	}
 
 	if err := config.DB.Create(&order).Error; err != nil {
