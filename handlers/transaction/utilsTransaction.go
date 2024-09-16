@@ -76,6 +76,10 @@ func responseDetailTransaction(data models.Order) responseTransactionDTO {
 	response.CountItem = len(data.OrderItem)
 	response.Total = data.Total
 	response.Username = data.User.Username
+	response.City = data.City
+	response.Address = data.Address
+	response.Province = data.Province
+	response.ReceiptNumber = data.ReceiptNumber
 	response.ProofOfPayment = utils.GetImageUrl(data.ProofOfPayment)
 	if data.ProofOfPayment != "" {
 		response.ProofOfPayment = utils.GetImageUrl(data.ProofOfPayment)
