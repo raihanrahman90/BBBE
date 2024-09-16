@@ -18,7 +18,7 @@ type responseTransactionDTO struct {
 	ProofOfPayment string				 `json:"proof_of_payment"`
 	Username	string						`json:"username"`
 	City		string						`json:"city"`
-	State		string
+	Province		string
 	Address		string
 	Item	  []responseTransactionItemDTO	`json:"item"`
 }
@@ -45,6 +45,9 @@ func responseTransaction(data models.Order) responseTransactionDTO {
 	response.Total = data.Total
 	response.ProofOfPayment = utils.GetImageUrl(data.ProofOfPayment)
 	response.Username = data.User.Username
+	response.City = data.City
+	response.Address = data.Address
+	response.Province = data.Province
 	return response
 }
 
