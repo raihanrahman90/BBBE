@@ -13,7 +13,7 @@ func GetDetailTranscation(c *gin.Context) {
 	id := c.Param("id")
 	var order models.Order
 
-	if err := config.DB.Where("id = ?", id).Preload("OrderItem").Find(&order).Error; err != nil {
+	if err := config.DB.Where("id = ?", id).Preload("OrderItem").Preload("User").Find(&order).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, utils.FailedResponse("Failed to get data"))
 		return
 	}
