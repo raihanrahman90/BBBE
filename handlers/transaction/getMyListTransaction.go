@@ -14,9 +14,6 @@ func GetMyListTransaction(c *gin.Context) {
 	var order []models.Order
 	query := config.DB.Model(&models.Order{})
 
-	userId, _ := c.Get("userId")
-	query = query.Where("user_id = ?", userId);
-
 	if status := c.Query("status"); status != "" {
 		query = query.Where("LOWER(status) = LOWER(?)", status)
 	}
@@ -24,11 +21,18 @@ func GetMyListTransaction(c *gin.Context) {
 	sortBy, sortOrder := utils.GetSorting(c)
 	query = query.Order(fmt.Sprintf("%s %s", sortBy, sortOrder))
 
+	userId, _ := c.Get("userId")
+	query = query.Where("user_id = ?", userId);
+
 	offset, limit, page := utils.GetPagination(c)
+
+	if status := c.Query("status"); status != "" {
+		query = query.Where("LOWER(status) = LOWER(?)", status)
+	}
 
 	var totalItems int64
 	query.Count(&totalItems)
-	if err := query.Offset(offset).Limit(limit).Find(&order).Error; err != nil {
+	if err := query.Offset(offset).Limit(limit).Preload("OrderItem").Preload("User").Order("date DESC").Find(&order).Error; err != nil {
 		c.JSON(http.StatusNotFound, utils.FailedResponse("Data Not Found"))
 		return
 	}
