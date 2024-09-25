@@ -42,7 +42,6 @@ func CreateTransaction(c *gin.Context) {
 	var orderItems []models.OrderItem
 	for _, item := range items {
 		orderItem := models.OrderItem{
-			ItemID: item.ID,
 			Amount: request[item.ID],
 			Name:   item.Name,
 			Price:  item.Price,
